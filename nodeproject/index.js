@@ -91,6 +91,18 @@ app.get('/count/:department', (req, res) => {
     .catch(err => res.json(err)); // Send error as response
 });
 
+// Route to search users by name
+app.get('/search/:name', (req, res) => {
+  const name = req.params.name; // Get name from request parameters
+
+  // Use a regular expression for case-insensitive and partial match
+  const nameRegex = new RegExp(name, 'i');
+
+  UserModel.find({ name: nameRegex }) // Search users by name
+    .then(users => res.json(users)) // Send matching users as response
+    .catch(err => res.json(err)); // Send error as response
+});
+
 // Start the server
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
